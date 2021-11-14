@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imam Ali Holy Shrine</title>
+    <link rel="stylesheet" href="/assets/css/app.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="topnav">
+        <a class="active" href="/index.html">Imam Ali Holy Shrine</a>
+        <a>Quizz</a>
+        <a href="#contact">Contact</a>
+        <a href="#about">About</a>
+    </div>
+
+    <div class="container">
+        <div id="home" class="flex-center flex-column">
+            <img id="logo" src="/resources/logo.png" />
+            <div class="card">
+                <h2 id="quizz-title" class="quizz-title-main flex-center flex-column"></h2>
+            </div>
+            <div class="card">
+                <p>Prepared by the religious affairs department at Imam Ali holy shrine.</p>
+                <img id="mainImage" src="/resources/rpic.jpg" />
+            </div>
+
+            <form onsubmit="return startQuizz(this)" class="card flex-center flex-column">
+                <div class="form-container flex-center flex-column">
+                    <span class="input-field"><label for="userName">Name:</label> <input type="text" id="useerName" class="input"/></span>
+                    <span class="input-field"><label for="gender">Gender:</label> 
+                        <input type="radio" name="gender" value="male" class="input">Male
+                        <input type="radio" name="gender" value="female" class="input">Female</span>
+                    <span class="input-field"><label for="age">Age:</label>  <input type="text" id="age" class="input"/></span>
+                    <span class="input-field"><label for="country">Country:</label> <input type="text" id="country" class="input"/></span>
+                    <span class="input-field">
+                        <label for="quizz-language">Language:</label>
+                        <select name="quizz-language" id="quizz-language" class="input">
+                            <option value="english">English</option>
+                            <option value="urdu">Urdu</option>
+                        </select>
+                    </span>
+                    <input class="btn" type="submit" value="Start" />
+                </div>
+            </form>
+            
+        </div>
+    </div>
+    <script type="text/javascript" src="assets/javascript/app.js"></script>
+</body>
+</html>
