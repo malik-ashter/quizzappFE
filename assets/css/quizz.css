@@ -1,3 +1,7 @@
+.question {
+    font-size: 1.8rem;
+    margin-bottom: 1.8rem;
+}
 .choice-container {
     display: flex;
     margin-bottom: 0.5rem;
@@ -15,6 +19,7 @@
 }
 
 .choice-prefix {
+    display: flex;
     padding: 1.5rem 2.5rem;
     background-color: #009688;
     color: white;
@@ -23,5 +28,9 @@
 
 .choice-text {
     padding: 1.5rem;
+}
+
+.choice-selected {
+    background-color: #0096873f;
 }
 

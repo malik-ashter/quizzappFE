@@ -1,4 +1,5 @@
 let questions;
+let allChoices;
 
 function fetchQuestions(){
     fetch('https://quizzappmalik.herokuapp.com/api/questions/'+ selectedLanguage.shortName)
@@ -7,7 +8,6 @@ function fetchQuestions(){
             return res.json();
     }).then(loadedQuestions => {
         questions = loadedQuestions;
-        applyLanguageStyles();
         startQuizz();
     });
 }
@@ -16,12 +16,13 @@ function startQuizz(){
     setQuizzTitle();
     for(let i= 1;i<questions.length; i++){
         $('#quizz-container').append(`
-            <div class="card">
-                <h3 class="question">${questions[i].q}  <span dir="ltr">(${questions[i].points}&nbsp;points)</span></h3>
+            <div id=question${i} class="card">
+                <p class="question">${questions[i].q}  <span dir="ltr">(${questions[i].points}&nbsp;points)</span></p>
                 ${appendChoices(questions[i])}
             </div>
         `);
     }
+    applyStyle();
 }
 
 function setQuizzTitle(){
@@ -35,8 +36,8 @@ function appendChoices(choices){
         if (['a', 'b', 'c', 'd', 'e'].includes(choice)){
             appendStr = appendStr.concat(`
                 <div class="choice-container">
-                    <div class="choice-prefix">${choice.toUpperCase()}</div>
-                    <div class="choice-text">${choices[choice]}</div>
+                    <p class="choice-prefix">${choice.toUpperCase()}</p>
+                    <p class="choice-text">${choices[choice]}</p>
                 </div>
             `);
         }
@@ -45,7 +46,7 @@ function appendChoices(choices){
 }
 
 function applyLanguageStyles(){
-    if(selectedLanguage.rtl){
+    if(selectedLanguage.name == 'urdu'){
         questions.forEach(parseRTLStrings);
         setDirRtl();
     }
@@ -64,6 +65,25 @@ function parseRTLStrings(obj){
             }
         }
     }
+}
+
+function applyStyle() {
+    applyLanguageStyles();
+    allChoices = Array.from(document.getElementsByClassName("choice-container"));
+    console.log(allChoices);
+    allChoices.forEach(choice => {
+        choice.addEventListener('click', e => {
+            styleSelectChoice(choice);
+        });
+    });
+}
+
+function styleSelectChoice(element) {
+    let selected = $(element).hasClass('choice-selected');
+    console.log(selected);
+    let choices = Array.from(document.getElementById($(element).parent().attr('id')).getElementsByClassName('choice-container'));
+    choices.forEach(choice => $(choice).removeClass('choice-selected'));
+    selected ? $(element).removeClass('choice-selected') : $(element).addClass('choice-selected');
 }
 
 jQuery(function() {

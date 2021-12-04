@@ -16,9 +16,8 @@ h1,h2,h3,h4{
 }
 
 h1{
-    font-size: 5.4rem;
     color: #009688;
-    margin-bottom: 5rem;
+    margin-bottom: 2.5rem;
 }
 
 h1 > span{
@@ -26,19 +25,9 @@ h1 > span{
     font-weight: 500;
 }
 
-h2{
-    font-size: 4.2rem;
-    margin-bottom: 4rem;
-    font-weight: 700;
-}
-
-h3{
-    font-size: 2.8rem;
-    font-weight: 500;
-}
 
 .container{
-    width: 100vw;
+    width: 95vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -154,11 +143,16 @@ input[type="text"]
 
 /* Images */
 #mainImage {
-    margin: 1.5rem 2.4rem;
+    width: 75%;
+    max-width: 95vw;
+    margin: auto;
+    display: block;
+    text-align: center;
 }
 
-#logo {
-    width: 80rem;
+#banner {
+    width: 100%;
+    max-width: 95vw;
     margin-bottom: 1.5rem;
     border-radius: 1.5rem;
 }
@@ -166,7 +160,6 @@ input[type="text"]
 /* Languages */
 .urdu {
     font-family: "Urdu Nastaliq Unicode";
-    font-size: 32px; 
 }
 
 /* Top Nav Bar */
