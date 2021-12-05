@@ -27,12 +27,14 @@
                 <img id="mainImage" src="/resources/rpic.jpg" />
             </div>
 
-            <form onsubmit="return startQuizz(this)" class="card flex-center flex-column">
-                <div class="form-container flex-center flex-column">
+            <form onsubmit="return startQuizz(this)" class="card">
+                <div class="form-container flex-center flex-column text-center margin-auto">
                     <span class="input-field"><label for="userName">Name:</label> <input type="text" id="useerName" class="input"/></span>
                     <span class="input-field"><label for="gender">Gender:</label> 
-                        <input type="radio" name="gender" value="male" class="input">Male
-                        <input type="radio" name="gender" value="female" class="input">Female</span>
+                        <span class="options">
+                            <input type="radio" name="gender" value="male">Male
+                            <input type="radio" name="gender" value="female">Female</span>
+                        </span>
                     <span class="input-field"><label for="age">Age:</label>  <input type="text" id="age" class="input"/></span>
                     <span class="input-field"><label for="country">Country:</label> <input type="text" id="country" class="input"/></span>
                     <span class="input-field">

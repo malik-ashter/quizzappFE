@@ -66,11 +66,19 @@ h1 > span{
     display: none;
 }
 
+.margin-auto {
+    margin: auto;
+}
+
 /* ********** */
 /* Form */
 /* ********** */
 .form-container {
-    width: 80%;
+    max-width: 60rem;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-content: space-between;
 }
 /* Buttons */
 
@@ -108,22 +116,34 @@ h1 > span{
     text-decoration: none;
     color: #009688;
     background-color: white;
+    display: flex;
+    justify-content: space-between;
 }
 
 .input-field label {
     color: #009688;
-    width: 15rem;
     display: inline-block;
     text-align: left;
     line-height: 2.2rem;
 }
 
 .input-field .input {
+    width: 24rem;
     padding: 12px 20px;
     border: 0.1rem solid #009688;
+    font-size:20px;
+    display: inline-block;
+}
+
+.input-field .options {
+    width: 24rem;
+    font-size: 1.8rem;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
     margin-left: 1rem;
     margin-right: 0.5rem;
-    font-size:20px;
+    text-decoration: none;
+    background-color: white;
 }
 /* text */
 input[type="text"]
