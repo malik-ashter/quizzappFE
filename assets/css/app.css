@@ -1,6 +1,8 @@
 :root {
     background-color: #ecf5ff ;
     font-size: 62.5%;
+
+    --small-font : 1.8rem;
 }
 
 *{
@@ -23,6 +25,10 @@ h1{
 h1 > span{
     font-size: 2.4rem;
     font-weight: 500;
+}
+
+p {
+    font-size: var(--small-font);
 }
 
 
@@ -83,7 +89,7 @@ h1 > span{
 /* Buttons */
 
 .btn {
-    font-size: 1.8rem;
+    font-size: var(--small-font);
     padding: 1rem 0;
     width: 20rem;
     text-align: center;
@@ -109,7 +115,6 @@ h1 > span{
 
 /* Input */
 .input-field {
-    font-size: 1.8rem;
     padding: 1rem 0;
     width: 100%;
     margin-bottom: 1rem;
@@ -120,7 +125,7 @@ h1 > span{
     justify-content: space-between;
 }
 
-.input-field label {
+.input-field label p {
     color: #009688;
     display: inline-block;
     text-align: left;
@@ -131,24 +136,29 @@ h1 > span{
     width: 24rem;
     padding: 12px 20px;
     border: 0.1rem solid #009688;
-    font-size:20px;
+    font-size: var(--small-font);
     display: inline-block;
 }
 
 .input-field .options {
     width: 24rem;
-    font-size: 1.8rem;
     padding: 1rem 0;
-    margin-bottom: 1rem;
-    margin-left: 1rem;
-    margin-right: 0.5rem;
     text-decoration: none;
     background-color: white;
+}
+
+.options input {
+    margin-right: 1rem;
+}
+
+.options p {
+    margin-right: 4.5rem;
+    display: inline;
 }
 /* text */
 input[type="text"]
 {
-    font-size:20px;
+    font-size: var(--small-font);
 }
 
 /* Card */

@@ -23,25 +23,26 @@
                 <h1 id="quizz-title" class="quizz-title-main flex-center flex-column"></h1>
             </div>
             <div class="card">
-                <p style="margin: 1.5rem;">Prepared by the religious affairs department at Imam Ali holy shrine.</p>
+                <p style="margin: 1.5rem; font-size: 1.2rem;">Prepared by the religious affairs department at Imam Ali holy shrine.</p>
                 <img id="mainImage" src="/resources/rpic.jpg" />
             </div>
 
             <form onsubmit="return startQuizz(this)" class="card">
                 <div class="form-container flex-center flex-column text-center margin-auto">
-                    <span class="input-field"><label for="userName">Name:</label> <input type="text" id="useerName" class="input"/></span>
-                    <span class="input-field"><label for="gender">Gender:</label> 
+                    <span class="input-field"><label for="userName"><p>Name:</p></label> <input type="text" id="useerName" class="input"/></span>
+                    <span class="input-field"><label for="gender"><p>Gender:</p></label> 
                         <span class="options">
-                            <input type="radio" name="gender" value="male">Male
-                            <input type="radio" name="gender" value="female">Female</span>
+                            <input type="radio" name="gender" value="male"><p>Male</p>
+                            <input type="radio" name="gender" value="female"><p>Female</p></span>
                         </span>
-                    <span class="input-field"><label for="age">Age:</label>  <input type="text" id="age" class="input"/></span>
-                    <span class="input-field"><label for="country">Country:</label> <input type="text" id="country" class="input"/></span>
+                    <span class="input-field"><label for="age"><p>Age:</p></label>  <input type="text" id="age" class="input"/></span>
+                    <span class="input-field"><label for="country"><p>Country:</p></label> <input type="text" id="country" class="input"/></span>
                     <span class="input-field">
-                        <label for="quizz-language">Language:</label>
+                        <label for="quizz-language"><p>Language:</p></label>
                         <select name="quizz-language" id="quizz-language" class="input">
                             <option value="urdu">Urdu</option>
                             <option value="english">English</option>
+                            <option value="english">Arabic</option>
                         </select>
                     </span>
                     <input class="btn" type="submit" value="Start Quizz" />
