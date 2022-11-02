@@ -2,17 +2,17 @@ let questions;
 let allChoices;
 
 function fetchQuestions(){
-    fetch('https://quizzappmalik.herokuapp.com/api/questions/'+ selectedLanguage.shortName)
+    fetch(domainValue + '/api/questions/'+ selectedLanguage.shortName)
     .then(res => {
-        if(res.status == 200)
+        if(isOkResponse(res))
             return res.json();
     }).then(loadedQuestions => {
         questions = loadedQuestions;
-        startQuizz();
-    });
+        loadQuizz();
+    }).catch(err=>console.log(err));
 }
 
-function startQuizz(){
+function loadQuizz(){
     setQuizzTitle();
     for(let i= 1;i<questions.length; i++){
         $('#quizz-container').append(`
@@ -26,7 +26,6 @@ function startQuizz(){
 }
 
 function setQuizzTitle(){
-    console.log(questions[0].title);
     $('.quizz-title').html(questions[0].title);
 }
 
@@ -70,7 +69,6 @@ function parseRTLStrings(obj){
 function applyStyle() {
     applyLanguageStyles();
     allChoices = Array.from(document.getElementsByClassName("choice-container"));
-    console.log(allChoices);
     allChoices.forEach(choice => {
         choice.addEventListener('click', e => {
             styleSelectChoice(choice);
@@ -80,13 +78,37 @@ function applyStyle() {
 
 function styleSelectChoice(element) {
     let selected = $(element).hasClass('choice-selected');
-    console.log(selected);
     let choices = Array.from(document.getElementById($(element).parent().attr('id')).getElementsByClassName('choice-container'));
     choices.forEach(choice => $(choice).removeClass('choice-selected'));
     selected ? $(element).removeClass('choice-selected') : $(element).addClass('choice-selected');
 }
 
-jQuery(function() {
-    selectedLanguage =  JSON.parse(localStorage.getItem('selectedLanguage'));
-    fetchQuestions();
- });
+async function submitQuiz() {
+    const response = await fetch(domainValue + '/api/submit-quizz' , {
+        method : 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body : ''
+     })
+     .then(res => {
+        if(isOkResponse(res)) {
+            window.location.assign('/assets/html/submitted.html');
+            return res.json();
+        } else {
+            document.getElementById("submit-error").style.display= 'block';
+        }
+    })
+     .then(data => {console.log(data);
+     }).catch(err=> {
+        console.log(err);
+        document.getElementById("submit-error").style.display= 'block';
+    });
+ }
+
+ jQuery(function() {
+     selectedLanguage =  JSON.parse(localStorage.getItem('selectedLanguage'));
+     fetchQuestions();
+     const submitBtn = document.getElementById("submit-quizz");
+     submitBtn.addEventListener("click", submitQuiz);
+  });

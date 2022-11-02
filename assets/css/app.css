@@ -162,6 +162,14 @@ input[type="text"]
     font-size: var(--small-font);
 }
 
+.error-message{
+    color: red;
+}
+
+.input-error{
+    outline: 1px solid red;
+}
+
 /* Card */
 .card {
     width: 100%;
