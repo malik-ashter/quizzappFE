@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Imam Ali Holy Shrine</title>
     <link rel="stylesheet" href="/assets/css/app.css" />
+    <link rel="stylesheet" href="/build/css/intlTelInput.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
@@ -27,32 +28,34 @@
                 <img id="mainImage" src="/resources/rpic.jpg" />
             </div>
 
-            <form onsubmit="return startQuizz(this)" class="card">
+            <form id="form" class="card">
                 <div class="form-container flex-center flex-column text-center margin-auto">
-                    <span class="input-field"><label for="userName"><p>Name:</p></label> <input type="text" id="useerName" class="input" required/></span>
+                    <span class="input-field"><label for="userName"><p>Name:</p></label> <input type="text" id="useerName" name="userName" class="input" required/></span>
                     <span class="input-field"><label for="gender"><p>Gender:</p></label> 
                         <span class="options">
-                            <input type="radio" name="gender" value="male" required><p>Male</p>
+                            <input type="radio" name="gender" value="male"><p>Male</p>
                             <input type="radio" name="gender" value="female"><p>Female</p></span>
                         </span>
-                    <span class="input-field"><label for="age"><p>Age:</p></label>  <input type="text" id="age" class="input" required/></span>
-                    <span class="input-field"><label for="mobile"><p>Mobile No:</p></label> <input type="text" id="mobile" class="input" required/></span>
-                    <span class="input-field"><label for="country"><p>Country:</p></label> <input type="text" id="country" class="input" required/></span>
+                    <span class="input-field"><label for="age"><p>Age:</p></label>  <input type="text" id="age" name="age"  class="input"/></span>
+                    <span class="input-field"><label for="mobile"><p>Mobile No:</p></label> <input type="tel" id="mobile" name="mobile"  class="input" required/></span>
                     <span class="input-field">
-                        <label for="quizz-language"><p>Language:</p></label>
-                        <select name="quizz-language" id="quizz-language" class="input" required>
+                        <label for="quizzLanguage"><p>Language:</p></label>
+                        <select name="quizzLanguage" id="quizzLanguage" class="input" required>
                             <option value=""> </option>
                             <option value="urdu">Urdu</option>
                             <option value="english">English</option>
                             <option value="english">Arabic</option>
                         </select>
                     </span>
-                    <input class="btn" type="submit" value="Start Quizz" />
+                    <p id="submit-error" class="text-center error-message" style="display:none">Error during form submission. Please try again later.</p>
+                    <input id="submitBtn" class="btn" type="button" value="Start Quizz" />
                 </div>
             </form>
             
         </div>
     </div>
+
+    <script type="text/javascript" src="/build/js/intlTelInput.js"></script>
     <script type="text/javascript" src="/assets/javascript/constants.js"></script>
     <script type="text/javascript" src="/assets/javascript/utils.js"></script>
     <script type="text/javascript" src="/assets/javascript/app.js"></script>

@@ -13,7 +13,7 @@ function fetchQuestions(){
 }
 
 function loadQuizz(){
-    setQuizzTitle();
+    $('.quizz-title').html(questions[0].title);
     for(let i= 1;i<questions.length; i++){
         $('#quizz-container').append(`
             <div id=question${i} class="card">
@@ -23,10 +23,6 @@ function loadQuizz(){
         `);
     }
     applyStyle();
-}
-
-function setQuizzTitle(){
-    $('.quizz-title').html(questions[0].title);
 }
 
 function appendChoices(choices){
