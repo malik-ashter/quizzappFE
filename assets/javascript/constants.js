@@ -1,9 +1,27 @@
-const languages = [{name: 'urdu',
-                shortName: 'ur',
-                rtl: true},
-                {name: 'english',
-                shortName: 'en',
-                rtl: false}];
+const languages = [{
+    name: 'Urdu',
+    shortName: 'ur',
+    rtl: true,
+    selected: false
+},
+{
+    name: 'English',
+    shortName: 'en',
+    rtl: false,
+    selected: true
+},
+{
+    name: 'Arabic',
+    shortName: 'ar',
+    rtl: true,
+    selected: false
+},
+{
+    name: 'Persian',
+    shortName: 'pr',
+    rtl: true,
+    selected: false
+}];
 
 let selectedLanguage;
 let titles;

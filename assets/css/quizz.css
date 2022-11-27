@@ -39,3 +39,89 @@
     background-color: #0096873f;
 }
 
+/* check */
+.checkmark {
+    display:inline-block;
+    width: 22px;
+    height:22px;
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+    text-align: right;
+    margin-top: 12px;
+}
+
+.checkmark_circle {
+    position: absolute;
+    width:22px;
+    height:22px;
+    background-color: green;
+    border-radius:11px;
+    left:0;
+    top:0;
+}
+
+.checkmark_stem {
+    position: absolute;
+    width:3px;
+    height:12px;
+    background-color:#fff;
+    left:11px;
+    top:5px;
+}
+
+.checkmark_kick {
+    position: absolute;
+    width:5px;
+    height:3px;
+    background-color:#fff;
+    left:7px;
+    top:14px;
+}
+/* cross */
+.crossmark {
+    display:inline-block;
+    width: 22px;
+    height:22px;
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+    text-align: right;
+    margin-top: 12px;
+}
+
+.crossmark_circle {
+    position: absolute;
+    width:22px;
+    height:22px;
+    background-color: red;
+    border-radius:11px;
+    left:0;
+    top:0;
+}
+
+.crossmark_stem {
+    position: absolute;
+    width:3px;
+    height:18px;
+    background-color:#fff;
+    left:10px;
+    top:2px;
+}
+
+.crossmark_kick {
+    position: absolute;
+    width:18px;
+    height:3px;
+    background-color:#fff;
+    left:2px;
+    top:10px;
+}
+
+.mark_ltr {
+    margin-left: auto;
+}
+
+.mark_rtl {
+    margin-right: auto;
+}

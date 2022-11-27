@@ -7,13 +7,25 @@ function fetchQuizzTitles(){
         })
         .then(loadedTitles => {
             titles = loadedTitles;
-            setHtmlProps();
+            $('.quizz-title-main').html(titles.titleEnglish);
         })
         .catch(err=>console.error(err));
 }
 
-function setHtmlProps(){
-    $('.quizz-title-main').html(titles.titleEnglish);
+function initializeForm(){
+    loadLanguages();
+}
+
+function loadLanguages() {
+    const languageMenu = document.getElementById('quizzLanguage');
+    languageMenu.options.add(new Option("", "", false));
+    languages.forEach((lang)=> {
+        languageMenu.add(new Option(lang.name, lang.name, lang.selected));
+        if(lang.selected) {
+            languageMenu.value = lang.name;
+        }
+    });
+    
 }
 
 async function startQuizz(){
@@ -58,12 +70,12 @@ setInputFilter(document.getElementById("mobile"), function(value) {
 
 jQuery(function() {
     fetchQuizzTitles();
-
+    initializeForm();
     iti = intlTelInput(document.getElementById('mobile') ,{
         utilsScript : 'build/js/utils.js'
     });
     iti.setCountry("pk");
-    
+
     $("#submitBtn").on("click", () => {
         if($("#form")[0].checkValidity()) {
             startQuizz();

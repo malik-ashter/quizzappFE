@@ -1,5 +1,6 @@
 let questions;
 let allChoices;
+let showAnswers = true;
 
 function fetchQuestions(){
     fetch(domainValue + '/api/questions/'+ selectedLanguage.shortName)
@@ -8,6 +9,7 @@ function fetchQuestions(){
             return res.json();
     }).then(loadedQuestions => {
         questions = loadedQuestions;
+        applyLanguageStyles();
         loadQuizz();
     }).catch(err=>console.log(err));
 }
@@ -27,12 +29,13 @@ function loadQuizz(){
 
 function appendChoices(choices){
     let appendStr = '';
+    let answer = choices.answer;
     for(let choice in choices){
         if (['a', 'b', 'c', 'd', 'e'].includes(choice)){
             appendStr = appendStr.concat(`
                 <div class="choice-container">
                     <p class="choice-prefix">${choice.toUpperCase()}</p>
-                    <p class="choice-text">${choices[choice]}</p>
+                    <p class="choice-text">${choices[choice]}</p>${getCheck()}${getCross()}
                 </div>
             `);
         }
@@ -40,8 +43,24 @@ function appendChoices(choices){
     return appendStr;
 }
 
+function getCheck() {
+    return `<span class="checkmark ${selectedLanguage.rtl ? 'mark_rtl' : 'mark_ltr'}" style="display:none">
+        <div class="checkmark_circle"></div>
+        <div class="checkmark_stem"></div>
+        <div class="checkmark_kick"></div>
+    </span>`;
+}
+
+function getCross() {
+    return `<span class="crossmark ${selectedLanguage.rtl ? 'mark_rtl' : 'mark_ltr'}" style="display:none">
+        <div class="crossmark_circle"></div>
+        <div class="crossmark_stem"></div>
+        <div class="crossmark_kick"></div>
+    </span>`;
+}
+
 function applyLanguageStyles(){
-    if(selectedLanguage.name == 'urdu'){
+    if(selectedLanguage.rtl){
         questions.forEach(parseRTLStrings);
         setDirRtl();
     }
@@ -53,9 +72,9 @@ function parseRTLStrings(obj){
             obj[s] = '&rlm;' + obj[s];
         }
         if('points' !== s){
-            if(['persian'].includes(selectedLanguage.name)){
+            if(['persian'].includes(selectedLanguage.name.toLowerCase())){
                 obj[s] = obj[s].replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
-            } else if(['arabic', 'urdu'].includes(selectedLanguage.name)){
+            } else if(['arabic', 'urdu'].includes(selectedLanguage.name.toLowerCase())){
                 obj[s] = obj[s].replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
             }
         }
@@ -63,7 +82,6 @@ function parseRTLStrings(obj){
 }
 
 function applyStyle() {
-    applyLanguageStyles();
     allChoices = Array.from(document.getElementsByClassName("choice-container"));
     allChoices.forEach(choice => {
         choice.addEventListener('click', e => {
@@ -89,7 +107,9 @@ async function submitQuiz() {
      })
      .then(res => {
         if(isOkResponse(res)) {
-            window.location.assign('/assets/html/submitted.html');
+            document.getElementById("submit-success").style.display= 'block';
+            showCorrectAnswers();
+            // window.location.assign('/assets/html/submitted.html');
             return res.json();
         } else {
             document.getElementById("submit-error").style.display= 'block';
@@ -101,6 +121,11 @@ async function submitQuiz() {
         document.getElementById("submit-error").style.display= 'block';
     });
  }
+ 
+ function showCorrectAnswers() {
+    showAnswers = true;
+    console.log('show');
+}
 
  jQuery(function() {
      selectedLanguage =  JSON.parse(localStorage.getItem('selectedLanguage'));
