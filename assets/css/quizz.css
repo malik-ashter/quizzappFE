@@ -36,7 +36,8 @@
 }
 
 .choice-selected {
-    background-color: #0096873f;
+    /* background-color: #0096873f; */
+    background-color: #0589ed3f;
 }
 
 /* check */

@@ -11,6 +11,18 @@ function isOkResponse(res){
     return false;
 }
 
+async function postToApi(url, reqBody) {
+  const options = {
+      method : 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body : reqBody
+   };
+  const response = await fetch(url , options);
+  return response;
+}
+
 // Restricts input for the given textbox to the given inputFilter function.
 function setInputFilter(textbox, inputFilter, errMsg) {
     ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop", "focusout"].forEach(function(event) {

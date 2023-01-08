@@ -29,6 +29,7 @@ function loadLanguages() {
 }
 
 async function startQuizz(){
+    document.getElementById("submit-error").style.display= 'none';
     let form = document.querySelector('#form');
     let data = new FormData(form);
     var languageName = data.get('quizzLanguage');
@@ -38,7 +39,7 @@ async function startQuizz(){
     formValues.mobile = iti.getNumber(); // get full number eg +17024181234
     Object.keys(formValues).forEach(k => formValues[k] = formValues[k].trim());
 
-    const response = await submitFormToApi(domainValue + '/api/submit-form', JSON.stringify(formValues))
+    const response = await postToApi(domainValue + '/api/submit-form', JSON.stringify(formValues))
         .then((res) => {
             if(isOkResponse(res)) {
                 window.location.href = '/assets/html/quizz.html';
@@ -49,18 +50,6 @@ async function startQuizz(){
         .catch((err)=> {
             document.getElementById("submit-error").style.display= 'block';
         });
-}
-
-async function submitFormToApi(url, reqBody) {
-    const options = {
-        method : 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body : reqBody
-     };
-    const response = await fetch(url , options);
-    return response;
 }
 
 //validation

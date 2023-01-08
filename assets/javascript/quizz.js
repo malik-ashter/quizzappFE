@@ -1,6 +1,7 @@
 let questions;
 let allChoices;
-let showAnswers = true;
+let showAnswers = false;
+let acceptAnswers = true;
 
 function fetchQuestions(){
     fetch(domainValue + '/api/questions/'+ selectedLanguage.shortName)
@@ -19,7 +20,7 @@ function loadQuizz(){
     for(let i= 1;i<questions.length; i++){
         $('#quizz-container').append(`
             <div id=question${i} class="card">
-                <p class="question">${questions[i].q}  <span dir="ltr">(${questions[i].points}&nbsp;points)</span></p>
+                <p class="question">${questions[i].question}  <span dir="ltr">(${questions[i].points}&nbsp;points)</span></p>
                 ${appendChoices(questions[i])}
             </div>
         `);
@@ -33,7 +34,7 @@ function appendChoices(choices){
     for(let choice in choices){
         if (['a', 'b', 'c', 'd', 'e'].includes(choice)){
             appendStr = appendStr.concat(`
-                <div class="choice-container">
+                <div class="choice-container" data-option="${choice.toLowerCase()}">
                     <p class="choice-prefix">${choice.toUpperCase()}</p>
                     <p class="choice-text">${choices[choice]}</p>${getCheck()}${getCross()}
                 </div>
@@ -85,7 +86,9 @@ function applyStyle() {
     allChoices = Array.from(document.getElementsByClassName("choice-container"));
     allChoices.forEach(choice => {
         choice.addEventListener('click', e => {
-            styleSelectChoice(choice);
+            if(acceptAnswers) {
+                styleSelectChoice(choice);
+            }
         });
     });
 }
@@ -108,23 +111,71 @@ async function submitQuiz() {
      .then(res => {
         if(isOkResponse(res)) {
             document.getElementById("submit-success").style.display= 'block';
-            showCorrectAnswers();
-            // window.location.assign('/assets/html/submitted.html');
+            if(showAnswers) {
+                showCorrectAnswers();
+                acceptAnswers = false;
+            } else {
+                saveAnswers();
+            }
             return res.json();
         } else {
             document.getElementById("submit-error").style.display= 'block';
         }
     })
-     .then(data => {console.log(data);
+     .then(data => {console.debug(data);
      }).catch(err=> {
-        console.log(err);
+        console.debug(err);
+        document.getElementById("submit-error").style.display= 'block';
+    });
+ }
+
+ async function saveAnswers() {
+    const selectedAns = getSelectedAnswers();
+    const response = await postToApi(domainValue + '/api/submit-quizz', selectedAns)
+    .then((res) => {
+        if(isOkResponse(res)) {
+            window.location.assign('/assets/html/submitted.html');
+        } else {
+            document.getElementById("submit-error").style.display= 'block';
+        }
+    })
+    .catch((err)=> {
         document.getElementById("submit-error").style.display= 'block';
     });
  }
  
+ function getSelectedAnswers() {
+    let selectedAns = [];
+    for(let i= 1;i<questions.length; i++){
+        $('#question' + i).find('.choice-container')
+        .each(function() {
+            if($(this).hasClass('choice-selected')) {
+                selectedAns.push({question : i, answer : $(this).attr('data-option')});
+                // selectedAns["question"+i] = $(this).attr('data-option');
+            }
+        });
+    }
+    return selectedAns;
+}
+
  function showCorrectAnswers() {
-    showAnswers = true;
-    console.log('show');
+    for(let i= 1;i<questions.length; i++){
+        const ans = questions[i].answer.replace('&rlm;','');
+        var selectedAns = '';
+        $('#question' + i).find('.choice-container')
+        .each(function() {
+            $(this).find('.checkmark').hide();
+            $(this).find('.crossmark').hide();
+            if($(this).hasClass('choice-selected')) {
+                selectedAns = $(this).attr('data-option');
+                if(ans == selectedAns) {
+                    $(this).find('.checkmark').show();
+                } else {
+                    $(this).find('.crossmark').show();
+                }
+            }
+        });
+    }
 }
 
  jQuery(function() {
