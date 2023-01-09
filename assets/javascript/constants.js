@@ -23,8 +23,6 @@ const languages = [{
     selected: false
 }];
 
-let selectedLanguage;
-let titles;
 const devEnvironments = {
     local : {
         domain : "http://localhost:3000"

@@ -1,3 +1,6 @@
+let selectedLanguage;
+let userID;
+
 let questions;
 let allChoices;
 let showAnswers = false;
@@ -101,37 +104,19 @@ function styleSelectChoice(element) {
 }
 
 async function submitQuiz() {
-    const response = await fetch(domainValue + '/api/submit-quizz' , {
-        method : 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body : ''
-     })
-     .then(res => {
-        if(isOkResponse(res)) {
-            document.getElementById("submit-success").style.display= 'block';
-            if(showAnswers) {
-                showCorrectAnswers();
-                acceptAnswers = false;
-            } else {
-                saveAnswers();
-            }
-            return res.json();
-        } else {
-            document.getElementById("submit-error").style.display= 'block';
-        }
-    })
-     .then(data => {console.debug(data);
-     }).catch(err=> {
-        console.debug(err);
-        document.getElementById("submit-error").style.display= 'block';
-    });
+    if(showAnswers) {
+        showCorrectAnswers();
+        acceptAnswers = false;
+    } else {
+        saveAnswers();
+    }
  }
 
  async function saveAnswers() {
-    const selectedAns = getSelectedAnswers();
-    const response = await postToApi(domainValue + '/api/submit-quizz', selectedAns)
+    const selectedAns = {};
+    selectedAns.userID = userID;
+    selectedAns.answers = getSelectedAnswers();
+    await postToApi(domainValue + '/api/submit-quizz', JSON.stringify(selectedAns))
     .then((res) => {
         if(isOkResponse(res)) {
             window.location.assign('/assets/html/submitted.html');
@@ -151,7 +136,6 @@ async function submitQuiz() {
         .each(function() {
             if($(this).hasClass('choice-selected')) {
                 selectedAns.push({question : i, answer : $(this).attr('data-option')});
-                // selectedAns["question"+i] = $(this).attr('data-option');
             }
         });
     }
@@ -180,6 +164,7 @@ async function submitQuiz() {
 
  jQuery(function() {
      selectedLanguage =  JSON.parse(localStorage.getItem('selectedLanguage'));
+     userID =  JSON.parse(localStorage.getItem('userID'));
      fetchQuestions();
      const submitBtn = document.getElementById("submit-quizz");
      submitBtn.addEventListener("click", submitQuiz);

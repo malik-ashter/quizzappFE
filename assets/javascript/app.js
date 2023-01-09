@@ -1,3 +1,5 @@
+let selectedLanguage;
+
 var iti;
 function fetchQuizzTitles(){
     fetch(domainValue + '/api/titles')
@@ -6,8 +8,7 @@ function fetchQuizzTitles(){
                 return res.json();
         })
         .then(loadedTitles => {
-            titles = loadedTitles;
-            $('.quizz-title-main').html(titles.titleEnglish);
+            $('.quizz-title-main').html(loadedTitles.titleEnglish);
         })
         .catch(err=>console.error(err));
 }
@@ -42,13 +43,19 @@ async function startQuizz(){
     const response = await postToApi(domainValue + '/api/submit-form', JSON.stringify(formValues))
         .then((res) => {
             if(isOkResponse(res)) {
-                window.location.href = '/assets/html/quizz.html';
+                return res.json();
             } else {
                 document.getElementById("submit-error").style.display= 'block';
             }
         })
+        .then((data) => {
+            localStorage.setItem('userID', JSON.stringify(data.userID));
+            window.location.href = '/assets/html/quizz.html';
+        })
         .catch((err)=> {
-            document.getElementById("submit-error").style.display= 'block';
+            const errorElem = document.getElementById("submit-error");
+            errorElem.innerHTML = err;
+            errorElem.style.display= 'block';
         });
 }
 
