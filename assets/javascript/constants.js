@@ -31,7 +31,7 @@ const devEnvironments = {
         domain : "https://web-production-4a9f.up.railway.app"
     },
     cyclic : {
-        domain : "https://zany-pear-chimpanzee-sari.cyclic.app"
+        domain : "https://erin-swordfish-wig.cyclic.app"
     }
 }
 var domainValue = devEnvironments.cyclic.domain;
