@@ -36,8 +36,15 @@
 }
 
 .choice-selected {
-    /* background-color: #0096873f; */
-    background-color: #0589ed3f;
+    background-color: #0096873f;
+}
+
+.choice-correct {
+    background-color: #0096873f;
+}
+
+.choice-wrong {
+    background-color: #c300003f;
 }
 
 /* check */

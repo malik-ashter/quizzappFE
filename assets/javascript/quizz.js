@@ -6,6 +6,10 @@ let allChoices;
 let showAnswers = false;
 let acceptAnswers = true;
 
+let submitBtn;
+let viewScoreBtn;
+let submitSucces;
+
 function fetchQuestions(){
     fetch(domainValue + '/api/questions/'+ selectedLanguage.shortName)
     .then(res => {
@@ -13,6 +17,9 @@ function fetchQuestions(){
             return res.json();
     }).then(loadedQuestions => {
         questions = loadedQuestions;
+        if(questions[0].showAnswers.trim().toLowerCase() == 'yes') {
+            showAnswers = true;
+        }
         applyLanguageStyles();
         loadQuizz();
     }).catch(err=>console.log(err));
@@ -104,8 +111,19 @@ function styleSelectChoice(element) {
 }
 
 async function submitQuiz() {
+    document.getElementById("submit-error").style.display= 'none';
+    try {
+        getSelectedAnswers();
+    } catch(e) {
+        handleError(e);
+        return;
+    }
+    submitBtn.style.display= 'none';
     if(showAnswers) {
-        showCorrectAnswers();
+        viewScoreBtn.style.display = 'block';
+        submitSucces.style.display= 'block';
+        submitSucces.innerHTML = "<bdi>Quizz submitted successfully. Join official whatsapp group of Imam Ali Shrine to "
+        + "get quizz results, certificates and other information.</bdi>";
         acceptAnswers = false;
     } else {
         saveAnswers();
@@ -115,7 +133,12 @@ async function submitQuiz() {
  async function saveAnswers() {
     const selectedAns = {};
     selectedAns.userID = userID;
-    selectedAns.answers = getSelectedAnswers();
+    try {
+        selectedAns.answers = getSelectedAnswers();
+    } catch(e) {
+        handleError(e);
+        return;
+    }
     await postToApi(domainValue + '/api/submit-quizz', JSON.stringify(selectedAns))
     .then((res) => {
         if(isOkResponse(res)) {
@@ -132,40 +155,67 @@ async function submitQuiz() {
  function getSelectedAnswers() {
     let selectedAns = [];
     for(let i= 1;i<questions.length; i++){
+        let answered = false;
         $('#question' + i).find('.choice-container')
         .each(function() {
             if($(this).hasClass('choice-selected')) {
                 selectedAns.push({question : i, answer : $(this).attr('data-option')});
+                answered = true;
             }
         });
+        if(!answered) {
+            throw new Error('Please answer all the questions!'); 
+        }
     }
     return selectedAns;
 }
 
- function showCorrectAnswers() {
+function showCorrectAnswers() {
     for(let i= 1;i<questions.length; i++){
         const ans = questions[i].answer.replace('&rlm;','');
-        var selectedAns = '';
+        var option = '';
         $('#question' + i).find('.choice-container')
         .each(function() {
             $(this).find('.checkmark').hide();
             $(this).find('.crossmark').hide();
+            option = $(this).attr('data-option');
             if($(this).hasClass('choice-selected')) {
-                selectedAns = $(this).attr('data-option');
-                if(ans == selectedAns) {
+                if(ans == option) {
+                    $(this).addClass('choice-correct');
                     $(this).find('.checkmark').show();
                 } else {
                     $(this).find('.crossmark').show();
+                    $(this).addClass('choice-wrong');
+                }
+            } else {
+                if(ans == option) {
+                    $(this).addClass('choice-correct');
+                    const node = document.createElement("span");
+                    const textnode = document.createTextNode("Correct Answer");
+                    node.appendChild(textnode);
+                    $(this).before(node);
                 }
             }
         });
     }
 }
 
+function handleError(err) {
+    let errorElem = document.getElementById("submit-error");
+    errorElem.innerHTML = err;
+    errorElem.style.display= 'block';
+}
+
  jQuery(function() {
      selectedLanguage =  JSON.parse(localStorage.getItem('selectedLanguage'));
      userID =  JSON.parse(localStorage.getItem('userID'));
      fetchQuestions();
-     const submitBtn = document.getElementById("submit-quizz");
+     submitBtn = document.getElementById("submit-quizz");
      submitBtn.addEventListener("click", submitQuiz);
+     if(!acceptAnswers) {
+        submitBtn.style.display = none;
+     }
+     viewScoreBtn = document.getElementById("view-score");
+     viewScoreBtn.addEventListener("click", showCorrectAnswers);
+     submitSucces = document.getElementById("submit-success");
   });

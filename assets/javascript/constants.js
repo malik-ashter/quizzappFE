@@ -28,9 +28,12 @@ const devEnvironments = {
         domain : "http://localhost:3000"
     },
     prod : {
-        domain : "https://quizzappmalik.herokuapp.com"
+        domain : "https://web-production-4a9f.up.railway.app"
+    },
+    cyclic : {
+        domain : "https://zany-pear-chimpanzee-sari.cyclic.app"
     }
 }
-var domainValue = devEnvironments.local.domain;
+var domainValue = devEnvironments.cyclic.domain;
 
 const okResponseCodes = [200, 201, 202, 203, 204, 205, 206];
