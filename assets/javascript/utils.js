@@ -1,6 +1,15 @@
 function setDirRtl(){
     if(selectedLanguage.rtl){
-        document.querySelector('html').setAttribute('dir','rtl');
+        // document.querySelector('html').setAttribute('dir','rtl');
+        
+        for(let i= 1;i<questions.length; i++){
+          $('#question' + i).attr('dir','rtl');
+          $('#question' + i).find('.choice-container')
+          .each(function() {
+              $(this).attr('dir','rtl');
+              $(this).addClass('selected');
+          });
+      }
     }
 }
 

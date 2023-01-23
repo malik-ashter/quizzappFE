@@ -9,6 +9,7 @@ let acceptAnswers = true;
 let submitBtn;
 let viewScoreBtn;
 let submitSucces;
+let errorElem;
 
 function fetchQuestions(){
     fetch(domainValue + '/api/questions/'+ selectedLanguage.shortName)
@@ -20,8 +21,9 @@ function fetchQuestions(){
         if(questions[0].showAnswers.trim().toLowerCase() == 'yes') {
             showAnswers = true;
         }
-        applyLanguageStyles();
+        questions.forEach(parseRTLStrings);
         loadQuizz();
+        applyLanguageStyles();
     }).catch(err=>console.log(err));
 }
 
@@ -72,7 +74,6 @@ function getCross() {
 
 function applyLanguageStyles(){
     if(selectedLanguage.rtl){
-        questions.forEach(parseRTLStrings);
         setDirRtl();
     }
 }
@@ -111,7 +112,7 @@ function styleSelectChoice(element) {
 }
 
 async function submitQuiz() {
-    document.getElementById("submit-error").style.display= 'none';
+    errorElem.style.display= 'none';
     try {
         getSelectedAnswers();
     } catch(e) {
@@ -128,6 +129,7 @@ async function submitQuiz() {
     } else {
         saveAnswers();
     }
+    $('#suggestions-container').hide();
  }
 
  async function saveAnswers() {
@@ -142,13 +144,14 @@ async function submitQuiz() {
     await postToApi(domainValue + '/api/submit-quizz', JSON.stringify(selectedAns))
     .then((res) => {
         if(isOkResponse(res)) {
+            userID = null;
             window.location.assign('/assets/html/submitted.html');
         } else {
-            document.getElementById("submit-error").style.display= 'block';
+            errorElem.style.display= 'block';
         }
     })
     .catch((err)=> {
-        document.getElementById("submit-error").style.display= 'block';
+        errorElem.style.display= 'block';
     });
  }
  
@@ -201,21 +204,27 @@ function showCorrectAnswers() {
 }
 
 function handleError(err) {
-    let errorElem = document.getElementById("submit-error");
     errorElem.innerHTML = err;
     errorElem.style.display= 'block';
 }
 
- jQuery(function() {
-     selectedLanguage =  JSON.parse(localStorage.getItem('selectedLanguage'));
-     userID =  JSON.parse(localStorage.getItem('userID'));
-     fetchQuestions();
-     submitBtn = document.getElementById("submit-quizz");
-     submitBtn.addEventListener("click", submitQuiz);
-     if(!acceptAnswers) {
-        submitBtn.style.display = none;
-     }
-     viewScoreBtn = document.getElementById("view-score");
-     viewScoreBtn.addEventListener("click", showCorrectAnswers);
-     submitSucces = document.getElementById("submit-success");
-  });
+jQuery(function() {
+    errorElem = document.getElementById("submit-error");
+    submitBtn = document.getElementById("submit-quizz");
+    selectedLanguage =  JSON.parse(localStorage.getItem('selectedLanguage'));
+    userID =  JSON.parse(localStorage.getItem('userID'));
+    if(!userID) {
+        $(submitBtn).hide();
+        $('#suggestions-container').hide();
+        handleError('User not found. Please go back to the first page and fill the form.');
+        return;
+    }
+    fetchQuestions();
+    submitBtn.addEventListener("click", submitQuiz);
+    if(!acceptAnswers) {
+    submitBtn.style.display = 'none';
+    }
+    viewScoreBtn = document.getElementById("view-score");
+    viewScoreBtn.addEventListener("click", showCorrectAnswers);
+    submitSucces = document.getElementById("submit-success");
+});

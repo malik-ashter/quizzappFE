@@ -22,16 +22,19 @@
     <div class="container">
         <div id="content" class="flex-center flex-column">
             <img id="banner" src="/resources/logo.png"/>
-            <h1 id="quizz-title" class="quizz-title text-center"></h1>
+            <div class="card" style="padding-bottom: 0;">
+                <h1 id="quizz-title" class="quizz-title text-center"></h1>
+            </div>
             <div class="card">
                 <h1 id="quizz-instructions" class="flex-center flex-column">Instructions</h1>
                 <p>The details about the quizz go here.</p>
             </div>
             <form class="card">
                 <div id="quizz-container"></div>
-                <span class="input-field">
-                    <label for="suggestions"><p>Suggestions:</p></label>
-                    <textarea id="suggestions" name="suggestions" rows="4" cols="90"></textarea>
+                <span id="suggestions-container" class="input-field">
+                    <label for="suggestions" style="margin: 0px 20px 0px;"><p>Suggestions:</p></label>
+                    <textarea id="suggestions" name="suggestions" rows="4" cols="80" style="margin: 0px 25px 0px;">
+                    </textarea>
                 </span>
                 <div id="button-container" class="container">
                     <input id="submit-quizz" class="btn" type="button" value="Submit" />
