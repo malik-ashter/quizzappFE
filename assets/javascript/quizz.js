@@ -17,7 +17,7 @@ function fetchQuestions(){
             return res.json();
     }).then(loadedQuestions => {
         questions = loadedQuestions;
-        if(questions[0].showAnswers.trim().toLowerCase == 'yes') {
+        if(questions[0].showAnswers.trim().toLowerCase() == 'yes') {
             showAnswers = true;
         }
         applyLanguageStyles();
