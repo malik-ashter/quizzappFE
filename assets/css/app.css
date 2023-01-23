@@ -247,3 +247,32 @@ footer {
     text-decoration: none;
     font-size: 2rem;
   }
+
+  /* Simple container */
+  .row-container {
+    display: flex;
+    margin: 20px;
+    margin-bottom: 0.5rem;
+    width: 100%;
+    font-size: 1.8rem;
+    align-items: center;
+}
+
+.row-prefix {
+    display: flex;
+    width : 60px;
+    align-items: center;
+}
+
+.row-text {
+    vertical-align: middle;
+    margin-left: 50px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}

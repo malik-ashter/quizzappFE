@@ -7,7 +7,7 @@
     <title>Imam Ali Holy Shrine</title>
     <link rel="stylesheet" href="/assets/css/app.css">
     <link rel="stylesheet" href="/assets/css/quizz.css">
-    <link rel="icon" href="/resources/icon.png" />
+    <link rel="icon" href="/resources/janna.jpg" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
@@ -22,26 +22,21 @@
     <div class="container">
         <div id="content" class="flex-center flex-column">
             <img id="banner" src="/resources/logo.png"/>
-            <h1 id="quizz-title" class="quizz-title text-center"></h1>
+            <h1 id="contact-us" class="text-center">Contact Us</h1>
             <div class="card">
-                <h1 id="quizz-instructions" class="flex-center flex-column">Instructions</h1>
-                <p>The details about the quizz go here.</p>
+                <div class="row-container">
+                    <img class="row-prefix" src="/resources/contact/facebook.png" >
+                    <span class="row-text"><a target="_blank" href="https://facebook.com/">Facebook Page</a></span>
+                </div>
+                <div class="row-container">
+                    <img class="row-prefix" src="/resources/contact/whatsapp.png">
+                    <span class="row-text"><a target="_blank" href="https://chat.whatsapp.com/E33rIDAvZluJCMQAYzSAmb">Join Whatsapp Chat</a></span>
+                </div>
+                <div class="row-container">
+                    <img class="row-prefix" src="/resources/contact/telegram.png">
+                    <span class="row-text"><a target="_blank" href="https://web.telegram.org/k/">Telegram</a></span>
+                </div>
             </div>
-            <form class="card">
-                <div id="quizz-container"></div>
-                <span class="input-field">
-                    <label for="suggestions"><p>Suggestions:</p></label>
-                    <textarea id="suggestions" name="suggestions" rows="4" cols="90"></textarea>
-                </span>
-                <div id="button-container" class="container">
-                    <input id="submit-quizz" class="btn" type="button" value="Submit" />
-                </div>
-                <p id="submit-error" class="text-center error-message" style="display:none">Error during quizz submission. Please try again later.</p>
-                <p id="submit-success" class="text-center" style="display:none"></p>
-                <div id="button-container" class="container">
-                    <input id="view-score" class="btn" type="button" value="View Score" style="display:none"/>
-                </div>
-            </form>
         </div>
     </div>
 
@@ -55,7 +50,7 @@
     </footer>
     <script type="text/javascript" src="/assets/javascript/constants.js"></script>
     <script type="text/javascript" src="/assets/javascript/utils.js"></script>
-    <script type="text/javascript" src="/assets/javascript/quizz.js"></script>
+    <script src="/assets/javascript/submitted.js"></script>
 </body>
 </html>
 
