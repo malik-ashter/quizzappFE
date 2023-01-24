@@ -13,19 +13,51 @@
     color: #333;
 }
 
+@font-face { font-family: 'Jameel Noori'; src: url('/resources/fonts/Jameel-Noori-Nastaleeq-Kasheeda.ttf');} 
+
+.urdu {
+    font-family: 'Jameel Noori';
+}
+
+.urdu > p,h1,h2,h3 {
+    font-family: 'Jameel Noori';
+}
+
 h1,h2,h3,h4{
     margin-bottom: 1rem;
 }
 
 h1{
     color: #009688;
-    font-size: 2.4rem;
+    font-size: 3.6rem;
     margin-bottom: 2.5rem;
 }
 
 h1 > span{
-    font-size: 2.4rem;
+    font-size: 3.6rem;
     font-weight: 500;
+}
+
+h2{
+    color: #009688;
+    font-size: 2.4rem;
+    margin-bottom: 1.7rem;
+}
+
+h2 > span{
+    font-size: 2.4rem;
+    font-weight: 300;
+}
+
+h3{
+    color: #009688;
+    font-size: 1.2rem;
+    margin-bottom: 1.0rem;
+}
+
+h3 > span{
+    font-size: 1.2rem;
+    font-weight: 200;
 }
 
 p {
@@ -197,11 +229,6 @@ input[type="text"]
     max-width: 95vw;
     margin-bottom: 1.5rem;
     border-radius: 1.5rem;
-}
-
-/* Languages */
-.urdu {
-    font-family: "Urdu Nastaliq Unicode";
 }
 
 /* Top Nav Bar */

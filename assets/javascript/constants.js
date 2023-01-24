@@ -9,6 +9,19 @@ const languages = [{
     shortName: 'en',
     rtl: false,
     selected: true
+}];
+
+const allLanguages = [{
+    name: 'Urdu',
+    shortName: 'ur',
+    rtl: true,
+    selected: false
+},
+{
+    name: 'English',
+    shortName: 'en',
+    rtl: false,
+    selected: true
 },
 {
     name: 'Arabic',

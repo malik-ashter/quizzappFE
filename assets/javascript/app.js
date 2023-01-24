@@ -85,4 +85,5 @@ jQuery(function() {
     + 'اپنی دینی معلومات میں روزانہ اضافہ کریں۔'
     + '<a href="https://chat.whatsapp.com/E33rIDAvZluJCMQAYzSAmb">Join Whatsapp Group</a>');
     $('#info-text').attr('dir','rtl');
+    $('#info-text').addClass('urdu');
  });

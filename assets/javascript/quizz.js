@@ -31,8 +31,8 @@ function loadQuizz(){
     $('.quizz-title').html(questions[0].title);
     for(let i= 1;i<questions.length; i++){
         $('#quizz-container').append(`
-            <div id=question${i} class="card">
-                <p class="question">${questions[i].question}  <span dir="ltr">(${questions[i].points}&nbsp;points)</span></p>
+            <div id=question${i} class="card" data-points="${questions[i].points}">
+                <p class="question">${questions[i].question} <span dir="ltr">(${questions[i].points} points)</span></p>
                 ${appendChoices(questions[i])}
             </div>
         `);
@@ -75,6 +75,7 @@ function getCross() {
 function applyLanguageStyles(){
     if(selectedLanguage.rtl){
         setDirRtl();
+        setUrdu();
     }
 }
 
@@ -112,14 +113,14 @@ function styleSelectChoice(element) {
 }
 
 async function submitQuiz() {
-    errorElem.style.display= 'none';
+    errorElem.hide();
     try {
         getSelectedAnswers();
     } catch(e) {
         handleError(e);
         return;
     }
-    submitBtn.style.display= 'none';
+    submitBtn.hide();
     if(showAnswers) {
         viewScoreBtn.style.display = 'block';
         submitSucces.style.display= 'block';
@@ -147,11 +148,11 @@ async function submitQuiz() {
             userID = null;
             window.location.assign('/assets/html/submitted.html');
         } else {
-            errorElem.style.display= 'block';
+            errorElem.hide();
         }
     })
     .catch((err)=> {
-        errorElem.style.display= 'block';
+        errorElem.hide();
     });
  }
  
@@ -167,23 +168,28 @@ async function submitQuiz() {
             }
         });
         if(!answered) {
-            throw new Error('Please answer all the questions!'); 
+            throw new Error(messages.ASNWER_ALL); 
         }
     }
     return selectedAns;
 }
 
 function showCorrectAnswers() {
+    let score = 0;
+    let points;
     for(let i= 1;i<questions.length; i++){
         const ans = questions[i].answer.replace('&rlm;','');
         var option = '';
-        $('#question' + i).find('.choice-container')
+        points = $('#question'+i).data('points');
+        $('#question'+i).find('.choice-container')
         .each(function() {
             $(this).find('.checkmark').hide();
             $(this).find('.crossmark').hide();
             option = $(this).attr('data-option');
             if($(this).hasClass('choice-selected')) {
-                if(ans == option) {
+                if(ans == option) { //selected correct
+                    var pointsNum =  parseInt(points.replace(/\D/g, ''));
+                    score += pointsNum;
                     $(this).addClass('choice-correct');
                     $(this).find('.checkmark').show();
                 } else {
@@ -191,7 +197,7 @@ function showCorrectAnswers() {
                     $(this).addClass('choice-wrong');
                 }
             } else {
-                if(ans == option) {
+                if(ans == option) { // correct not selected
                     $(this).addClass('choice-correct');
                     const node = document.createElement("span");
                     const textnode = document.createTextNode("Correct Answer");
@@ -201,28 +207,30 @@ function showCorrectAnswers() {
             }
         });
     }
+    $(viewScoreBtn).hide();
+    showContainerWithMsg('score', `Your score is ${score}. You can check the correct answers below.`);
+    document.getElementById("score").scrollIntoView();
 }
 
 function handleError(err) {
-    errorElem.innerHTML = err;
-    errorElem.style.display= 'block';
+    showMsg('submit-error', err);
 }
 
 jQuery(function() {
-    errorElem = document.getElementById("submit-error");
-    submitBtn = document.getElementById("submit-quizz");
+    errorElem = $('#submit-error');
+    submitBtn = $('#submit-quizz');
     selectedLanguage =  JSON.parse(localStorage.getItem('selectedLanguage'));
     userID =  JSON.parse(localStorage.getItem('userID'));
     if(!userID) {
-        $(submitBtn).hide();
+        submitBtn.hide();
         $('#suggestions-container').hide();
         handleError('User not found. Please go back to the first page and fill the form.');
         return;
     }
     fetchQuestions();
-    submitBtn.addEventListener("click", submitQuiz);
+    submitBtn.on("click", submitQuiz);
     if(!acceptAnswers) {
-    submitBtn.style.display = 'none';
+    submitBtn.hide();
     }
     viewScoreBtn = document.getElementById("view-score");
     viewScoreBtn.addEventListener("click", showCorrectAnswers);
