@@ -1,5 +1,6 @@
 let selectedLanguage;
 let userID;
+let quizzId;
 
 let questions;
 let allChoices;
@@ -12,7 +13,7 @@ let submitSucces;
 let errorElem;
 
 function fetchQuestions(){
-    fetch(domainValue + '/api/questions/'+ selectedLanguage.shortName)
+    fetch(domainValue + '/api/quizz/questions/'+ selectedLanguage.shortName)
     .then(res => {
         if(isOkResponse(res))
             return res.json();
@@ -31,7 +32,7 @@ function loadQuizz(){
     $('.quizz-title').html(questions[0].title);
     for(let i= 1;i<questions.length; i++){
         $('#quizz-container').append(`
-            <div id=question${i} class="card" data-points="${questions[i].points}">
+            <div id=question${i} class="question-container" data-points="${questions[i].points}">
                 <p class="question">${questions[i].question} <span dir="ltr">(${questions[i].points} points)</span></p>
                 ${appendChoices(questions[i])}
             </div>
@@ -142,7 +143,7 @@ async function submitQuiz() {
         handleError(e);
         return;
     }
-    await postToApi(domainValue + '/api/submit-quizz', JSON.stringify(selectedAns))
+    await postToApi(domainValue + '/api/quizz/submit', JSON.stringify(selectedAns))
     .then((res) => {
         if(isOkResponse(res)) {
             userID = null;
@@ -187,17 +188,17 @@ function showCorrectAnswers() {
             $(this).find('.crossmark').hide();
             option = $(this).attr('data-option');
             if($(this).hasClass('choice-selected')) {
-                if(ans == option) { //selected correct
+                if(ans == option) { //answered correctly
                     var pointsNum =  parseInt(points.replace(/\D/g, ''));
                     score += pointsNum;
                     $(this).addClass('choice-correct');
                     $(this).find('.checkmark').show();
-                } else {
+                } else { //answered wront
                     $(this).find('.crossmark').show();
                     $(this).addClass('choice-wrong');
                 }
             } else {
-                if(ans == option) { // correct not selected
+                if(ans == option) { //correct answer not selected
                     $(this).addClass('choice-correct');
                     const node = document.createElement("span");
                     const textnode = document.createTextNode("Correct Answer");
@@ -220,6 +221,7 @@ jQuery(function() {
     errorElem = $('#submit-error');
     submitBtn = $('#submit-quizz');
     selectedLanguage =  JSON.parse(localStorage.getItem('selectedLanguage'));
+    quizzId =  JSON.parse(localStorage.getItem('quizzId'));
     userID =  JSON.parse(localStorage.getItem('userID'));
     if(!userID) {
         submitBtn.hide();

@@ -205,6 +205,11 @@ input[type="text"]
     outline: 1px solid red;
 }
 
+/* text area */
+textarea {
+    width: 100%; max-width: 100%;
+}
+
 /* Card */
 .card {
     width: 100%;

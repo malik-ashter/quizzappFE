@@ -1,14 +1,17 @@
 let selectedLanguage;
+let quizzId;
 
 var iti;
 function fetchQuizzTitles(){
-    fetch(domainValue + '/api/titles')
+    fetch(domainValue + '/api/quizz/data')
         .then(res => {
             if(isOkResponse(res))
                 return res.json();
         })
-        .then(loadedTitles => {
-            $('.quizz-title-main').html(loadedTitles.titleEnglish);
+        .then(quizzData => {
+            $('.quizz-title-main').html(quizzData.title);
+            quizzId = quizzData.quizzId;
+            localStorage.setItem('quizzId', JSON.stringify(quizzId));
         })
         .catch(err=>console.error(err));
 }
@@ -29,7 +32,7 @@ function loadLanguages() {
     
 }
 
-async function startQuizz(){
+async function submitForm(){
     document.getElementById("submit-error").style.display= 'none';
     let form = document.querySelector('#form');
     let data = new FormData(form);
@@ -40,7 +43,7 @@ async function startQuizz(){
     formValues.mobile = iti.getNumber(); // get full number eg +17024181234
     Object.keys(formValues).forEach(k => formValues[k] = formValues[k].trim());
 
-    const response = await postToApi(domainValue + '/api/submit-form', JSON.stringify(formValues))
+    const response = await postToApi(domainValue + '/api/user/insert', JSON.stringify(formValues))
         .then((res) => {
             if(isOkResponse(res)) {
                 return res.json();
@@ -67,18 +70,23 @@ setInputFilter(document.getElementById("mobile"), function(value) {
 jQuery(function() {
     fetchQuizzTitles();
     initializeForm();
+
+    //phone number
     iti = intlTelInput(document.getElementById('mobile') ,{
         utilsScript : 'build/js/utils.js'
     });
     iti.setCountry("pk");
 
+    //submit button
     $("#submitBtn").on("click", () => {
         if($("#form")[0].checkValidity()) {
-            startQuizz();
+            submitForm();
         } else {
             $("#form")[0].reportValidity();
         }
     });
+
+    //inof text
     $('#info-text').html('بسم اللہ الرحمن الرحیم '
     + 'مختلف کوئز، ہفتہ وار مفید ٹیسٹ، کلام اہل بیت(علہیم السلام) پر مشتمل احادیث، مبتلا بہ جدید ترین فقہی'
     + 'مسائل اور فقہی سوالات کے جوابات کے لیے حرم امام علی علیہ السلام کے آفیشل واٹساپ گروپ کو جوائن کریں اور'

@@ -3,10 +3,15 @@
     max-width: 95vw;
 }
 
+.question-container {
+    margin-bottom: 3.9rem;
+}
+
 .question {
     font-size: 1.8rem;
     margin-bottom: 1.8rem;
 }
+
 .choice-container {
     display: flex;
     margin-bottom: 0.5rem;
