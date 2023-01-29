@@ -151,11 +151,11 @@ async function submitQuiz() {
             userID = null;
             window.location.assign('/assets/html/submitted.html');
         } else {
-            errorElem.hide();
+            errorElem.show();
         }
     })
     .catch((err)=> {
-        errorElem.hide();
+        handleError(err);
     });
  }
  
