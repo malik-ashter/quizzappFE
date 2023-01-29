@@ -1,6 +1,6 @@
 let selectedLanguage;
 let userID;
-let quizzId;
+let quizzID;
 
 let questions;
 let allChoices;
@@ -135,15 +135,17 @@ async function submitQuiz() {
  }
 
  async function saveAnswers() {
-    const selectedAns = {};
-    selectedAns.userID = userID;
+    const answerData = {};
+    answerData.userID = userID;
+    answerData.quizzID = quizzID;
+    answerData.language = selectedLanguage.shortName;
     try {
-        selectedAns.answers = getSelectedAnswers();
+        answerData.answers = getSelectedAnswers();
     } catch(e) {
         handleError(e);
         return;
     }
-    await postToApi(domainValue + '/api/quizz/submit', JSON.stringify(selectedAns))
+    await postToApi(domainValue + '/api/quizz/submit', JSON.stringify(answerData))
     .then((res) => {
         if(isOkResponse(res)) {
             userID = null;

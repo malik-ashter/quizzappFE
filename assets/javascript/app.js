@@ -1,5 +1,5 @@
 let selectedLanguage;
-let quizzId;
+let quizzID;
 
 var iti;
 function fetchQuizzTitles(){
@@ -10,8 +10,8 @@ function fetchQuizzTitles(){
         })
         .then(quizzData => {
             $('.quizz-title-main').html(quizzData.title);
-            quizzId = quizzData.quizzId;
-            localStorage.setItem('quizzId', JSON.stringify(quizzId));
+            quizzID = quizzData.quizzID;
+            localStorage.setItem('quizzID', JSON.stringify(quizzID));
         })
         .catch(err=>console.error(err));
 }

@@ -2,13 +2,13 @@ const languages = [{
     name: 'Urdu',
     shortName: 'ur',
     rtl: true,
-    selected: false
+    selected: true
 },
 {
     name: 'English',
     shortName: 'en',
     rtl: false,
-    selected: true
+    selected: false
 }];
 
 const allLanguages = [{
