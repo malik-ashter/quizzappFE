@@ -6,6 +6,7 @@ let questions;
 let allChoices;
 let showAnswers = false;
 let acceptAnswers = true;
+let scoreFromApi;
 
 let submitBtn;
 let viewScoreBtn;
@@ -121,22 +122,21 @@ async function submitQuiz() {
         handleError(e);
         return;
     }
-    submitBtn.hide();
-    if(showAnswers) {
-        viewScoreBtn.style.display = 'block';
-        submitSucces.style.display= 'block';
-        submitSucces.innerHTML = "<bdi>Quizz submitted successfully. Join official whatsapp group of Imam Ali Shrine to "
-        + "get quizz results, certificates and other information.</bdi>";
-        acceptAnswers = false;
-    } else {
-        saveAnswers();
+    if(!userID) {
+        submitBtn.hide();
+        $('#suggestions-container').hide();
+        handleError('User not found. Please go back to the first page and fill the form.');
+        document.getElementById("submit-error").scrollIntoView();
+        return;
     }
+    submitBtn.hide();
+    await saveAnswers();
     $('#suggestions-container').hide();
  }
 
  async function saveAnswers() {
     const answerData = {};
-    answerData.userID = userID;
+    answerData.user = userID;
     answerData.quizzID = quizzID;
     answerData.language = selectedLanguage.shortName;
     try {
@@ -149,7 +149,20 @@ async function submitQuiz() {
     .then((res) => {
         if(isOkResponse(res)) {
             userID = null;
-            window.location.assign('/assets/html/submitted.html');
+    		window.localStorage.removeItem('userID');
+            if(showAnswers) {
+                $(viewScoreBtn).show();
+                $(submitSucces).show();
+                submitSucces.innerHTML = "<bdi>Quizz submitted successfully. Join official whatsapp group of Imam Ali Shrine to "
+                + "get quizz results, certificates and other information.</bdi>";
+                res.json()
+                    .then((data) => {
+                        scoreFromApi= JSON.stringify(data.score);
+                        acceptAnswers = false;
+                    });
+            } else {
+                window.location.assign('/assets/html/submitted.html');
+            }
         } else {
             errorElem.show();
         }
@@ -211,7 +224,7 @@ function showCorrectAnswers() {
         });
     }
     $(viewScoreBtn).hide();
-    showContainerWithMsg('score', `Your score is ${score}. You can check the correct answers below.`);
+    showContainerWithMsg('score', `Your score is ${scoreFromApi}. You can check the correct answers below.`);
     document.getElementById("score").scrollIntoView();
 }
 
@@ -223,7 +236,7 @@ jQuery(function() {
     errorElem = $('#submit-error');
     submitBtn = $('#submit-quizz');
     selectedLanguage =  JSON.parse(localStorage.getItem('selectedLanguage'));
-    quizzId =  JSON.parse(localStorage.getItem('quizzId'));
+    quizzID =  JSON.parse(localStorage.getItem('quizzID'));
     userID =  JSON.parse(localStorage.getItem('userID'));
     if(!userID) {
         submitBtn.hide();
@@ -239,4 +252,21 @@ jQuery(function() {
     viewScoreBtn = document.getElementById("view-score");
     viewScoreBtn.addEventListener("click", showCorrectAnswers);
     submitSucces = document.getElementById("submit-success");
+
+    
+    //inof text
+    $('#instructions-text').html('سلسلہ آفتابِ ولایت'
+    + 'از طلوع تا غروب '
+    + 'ہر سال حرم امیر المومنین(علیہ السلام) کی جانب سے خورشیدِ امامت از طلوع تا غروب کوئز کا انعقاد کیا جاتا ہے لیکن اس سے ولادتِ امیرِ کائنات کی مناسبت سے ایک نئے سلسلہ * آفتابِ ولایت از طلوع تا غروب* شروع کیا جا رہا ہے۔ '
+    + 'تفصیلات'
+    + '</br>1: ماہِ رجب، شعبان اور رمضان میں ہر ماہ دو ٹیسٹ ہوں گے۔'
+    + '</br>2: یہ ٹیسٹ امیر المومنین(علیہ السلام) کے فضائل، سیرت و کردار پر مشتمل ہوں گے۔'
+    + '</br>3: یہ ٹیسٹ مرحلہ وار ہوں گے۔ '
+    + '</br>4: پہلے مرحلہ ماہ رجب، دوسرا ماہ شعبان اور تیسرا ماہ رمضان میں ہوگا۔'
+    + '</br>5: پہلے مرحلے میں پچاس(50) نمبر لینے والا دوسرے روانڈ میں شرکت کا اہل ہوگا، دوسرے مرحلے میں(80) نمبر لینے والا تیسرے اور فائنل روانڈ میں شرکت کا مستحق قرار پائے گا، فائنل روانڈ میں(100)نمبر لینے والے افراد کو قیمتی انعام دیا جائے گا۔'
+    + '</br>6: فائنل روانڈ میں(100) نمبر لینے والے افراد کے درمیان قرعہ اندازی ہوگی اور ایک خوش نصیب کا نام  بذریعہ قرعہ اندازی نکالا جائے گا۔ '
+    + '</br>7: دوسرے اور تیسرے روانڈ میں کامیاب ہونے والوں کو حرمِ امیر المؤمنین(علیہ السلام) کی طرف سے سرٹیفکیٹ دیے جائیں گے۔  '
+    + '</br>8: پہلے اور دوسرے روانڈ میں مطلوبہ نمبر سے کم نمبر حاصل کرنے والے افراد معلومات میں اضافے کے لیے دوسرے اور تیسرے مرحلے میں شرکت کر سکتے ہیں اور اگر انہوں نے دوسرے اور تیسرے روانڈ میں مطلوبہ نمبر لیے تو انہیں سرٹیفکیٹ ملے گا۔');
+    $('#instructions-text').attr('dir','rtl');
+    $('#instructions-text').addClass('urdu');
 });
