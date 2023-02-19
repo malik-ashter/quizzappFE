@@ -142,7 +142,7 @@ async function submitQuiz() {
     const answerData = {};
     answerData.user = userID;
     answerData.quizzID = quizzID;
-    answerData.language = selectedLanguage.shortName;
+    answerData.language = selectedLanguage.name;
     answerData.suggestions = $('#suggestions').val();
     try {
         answerData.answers = getSelectedAnswers();
