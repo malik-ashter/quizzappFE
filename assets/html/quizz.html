@@ -32,16 +32,16 @@
             <div id="score" class="card" style="display: none;">
                 <h2></h2>
             </div>
-            <form class="card">
+            <form id="form" class="card">
                 <div id="quizz-container"></div>
                 <div id="suggestions-container" class="input-field" style="display: block;">
                     <label for="suggestions" style="display: block; margin-bottom: 1em;"><p>Suggestions:</p></label>
-                    <textarea id="suggestions" name="suggestions" rows="4">
-                    </textarea>
+                    <textarea id="suggestions" name="suggestions" rows="4"></textarea>
                 </div>
                 <div id="button-container" class="container">
                     <input id="submit-quizz" class="btn" type="button" value="Submit" />
                 </div>
+                <div id="loader" class="dot-pulse" style="display: none; margin: auto;"></div>
                 <p id="submit-error" class="text-center error-message" style="display:none">Error during quizz submission. Please try again later.</p>
                 <p id="submit-success" class="text-center" style="display:none"></p>
                 <div id="button-container" class="container">

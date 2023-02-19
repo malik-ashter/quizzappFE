@@ -43,8 +43,26 @@ function setUrdu() {
       .each(function() {
           $(this).addClass('urdu');
       });
+    }
   }
 }
+
+function startLoading() {
+  $('#loader').show();
+  setFormReadonly(true);
+}
+
+function endLoading() {
+  $('#loader').hide();
+  setFormReadonly(false);
+}
+
+function setFormReadonly(readonly) {
+  var form = document.getElementById("form");
+  var elements = form.elements;
+  for (var i = 0, len = elements.length; i < len; ++i) {
+      elements[i].disabled = readonly;
+  }
 }
 
 // Restricts input for the given textbox to the given inputFilter function.

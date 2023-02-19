@@ -115,23 +115,27 @@ function styleSelectChoice(element) {
 }
 
 async function submitQuiz() {
+    startLoading();
     errorElem.hide();
     try {
         getSelectedAnswers();
     } catch(e) {
         handleError(e);
+        endLoading();
         return;
     }
     if(!userID) {
         submitBtn.hide();
         $('#suggestions-container').hide();
-        handleError('User not found. Please go back to the first page and fill the form.');
+        handleError('User not found. Please go back to the first page and fill in the form.');
         document.getElementById("submit-error").scrollIntoView();
+        endLoading();
         return;
     }
     submitBtn.hide();
     await saveAnswers();
     $('#suggestions-container').hide();
+    endLoading();
  }
 
  async function saveAnswers() {
@@ -139,6 +143,7 @@ async function submitQuiz() {
     answerData.user = userID;
     answerData.quizzID = quizzID;
     answerData.language = selectedLanguage.shortName;
+    answerData.suggestions = $('#suggestions').val();
     try {
         answerData.answers = getSelectedAnswers();
     } catch(e) {
@@ -164,7 +169,10 @@ async function submitQuiz() {
                 window.location.assign('/assets/html/submitted.html');
             }
         } else {
-            errorElem.show();
+            res.text()
+                .then((message) => {
+                    handleError(message);
+                });
         }
     })
     .catch((err)=> {
