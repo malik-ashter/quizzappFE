@@ -13,14 +13,15 @@
     color: #333;
 }
 
+@font-face { font-family: 'Alvi Nastaleeq'; src: url('/resources/fonts/Alvi-Nastaleeq-Regular.ttf');} 
 @font-face { font-family: 'Jameel Noori'; src: url('/resources/fonts/Jameel-Noori-Nastaleeq-Kasheeda.ttf');} 
 
 .urdu {
-    font-family: 'Jameel Noori';
+    font-family: 'Alvi Nastaleeq', 'Jameel Noori';
 }
 
 .urdu > p,h1,h2,h3 {
-    font-family: 'Jameel Noori';
+    font-family: 'Alvi Nastaleeq', 'Jameel Noori';
 }
 
 h1,h2,h3,h4{

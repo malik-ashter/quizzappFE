@@ -20,29 +20,36 @@ function fetchQuizzTitles(){
 function initializeForm(){
     loadLanguages();
     submitBtn = $('#submitBtn');
-        //phone number
-        iti = intlTelInput(document.getElementById('mobile') ,{
-            utilsScript : 'build/js/utils.js'
-        });
-        iti.setCountry("pk");
-    
-        //submit button
-        submitBtn.on("click", () => {
-            if($("#form")[0].checkValidity()) {
-                submitForm();
-            } else {
-                $("#form")[0].reportValidity();
-            }
-        });
-    
-        //inof text
-        $('#info-text').html('بسم اللہ الرحمن الرحیم '
-        + 'مختلف کوئز، ہفتہ وار مفید ٹیسٹ، کلام اہل بیت(علہیم السلام) پر مشتمل احادیث، مبتلا بہ جدید ترین فقہی'
-        + 'مسائل اور فقہی سوالات کے جوابات کے لیے حرم امام علی علیہ السلام کے آفیشل واٹساپ گروپ کو جوائن کریں اور'
-        + 'اپنی دینی معلومات میں روزانہ اضافہ کریں۔'
-        + '<a href="https://chat.whatsapp.com/E33rIDAvZluJCMQAYzSAmb">Join Whatsapp Group</a>');
-        $('#info-text').attr('dir','rtl');
-        $('#info-text').addClass('urdu');
+    //phone number
+    iti = intlTelInput(document.getElementById('mobile') ,{
+        utilsScript : 'build/js/utils.js'
+    });
+    iti.setCountry("pk");
+
+    //submit button
+    submitBtn.on("click", () => {
+        if($("#form")[0].checkValidity()) {
+            submitForm();
+        } else {
+            $("#form")[0].reportValidity();
+        }
+    });
+
+    //inof text
+    $('#info-text').html('بسم اللہ الرحمن الرحیم '
+    + 'مختلف کوئز، ہفتہ وار مفید ٹیسٹ، کلام اہل بیت(علہیم السلام) پر مشتمل احادیث، مبتلا بہ جدید ترین فقہی'
+    + 'مسائل اور فقہی سوالات کے جوابات کے لیے حرم امام علی علیہ السلام کے آفیشل واٹساپ گروپ کو جوائن کریں اور'
+    + 'اپنی دینی معلومات میں روزانہ اضافہ کریں۔'
+    + '<a href="https://chat.whatsapp.com/E33rIDAvZluJCMQAYzSAmb">Join Whatsapp Group</a>');
+    $('#info-text').attr('dir','rtl');
+
+    //Language Urdu
+    setUrdu();
+}
+
+function setUrdu() {
+    $('#quizz-title').addClass('urdu');
+    $('#info-text').addClass('urdu');
 }
 
 function loadLanguages() {
